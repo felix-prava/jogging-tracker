@@ -1,24 +1,15 @@
 <p id="notice"><%= notice %></p>
 
-<p>
-  <strong>Name:</strong>
-  <%= @user.name %>
-</p>
+<div class="card">
+  <div class="card-header">
+      <strong><%= @user.name %></strong>
+  </div>
+  <div class="card-body">
+    <h5 class="card-title"><%= @user.email %></h5>
+    <p class="card-text">With supporting text below as a natural lead-in to additional content.</p>
+    <%= link_to 'Edit', edit_user_path(@user), class:"btn btn-secondary"%>
+  </div>
+</div>
+<br>
 
-<p>
-  <strong>Email:</strong>
-  <%= @user.email %>
-</p>
-
-<p>
-  <strong>Manager:</strong>
-  <%= @user.manager %>
-</p>
-
-<p>
-  <strong>Password digest:</strong>
-  <%= @user.password_digest %>
-</p>
-
-<%= link_to 'Edit', edit_user_path(@user) %> |
-<%= link_to 'Back', users_path %>
+<%= link_to 'Back', users_path, class:"btn btn-secondary"%>

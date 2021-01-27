@@ -1,9 +1,9 @@
 <p id="notice"><%= notice %></p>
 
 <h1>Users</h1>
-
-<table>
-  <thead>
+<br>
+<table class="table table-hover table-striped table-bordered">
+  <thead class="table-dark">
     <tr>
       <th>Name</th>
       <th>Email</th>
@@ -15,7 +15,7 @@
 
   <tbody>
     <% @users.each do |user| %>
-      <tr>
+      <tr class="table-active">
         <td><%= user.name %></td>
         <td><%= user.email %></td>
         <td><%= user.manager %></td>
@@ -30,4 +30,4 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path %>
+<%= link_to 'New User', new_user_path, class:"btn btn-secondary" %>

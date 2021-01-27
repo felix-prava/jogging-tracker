@@ -2,7 +2,7 @@ require "test_helper"
 
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
-    @user = users(:one)
+    @user = users(:Felix)
   end
 
   test "should get index" do
@@ -11,15 +11,29 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should get new" do
-    get new_user_url
+    get signup_path
     assert_response :success
   end
 
-  test "should create user" do
-    assert_difference('User.count') do
-      post users_url, params: { user: { email: @user.email, manager: @user.manager, name: @user.name, password_digest: @user.password_digest } }
+  test "invalid signup information" do
+    get signup_path
+    assert_no_difference 'User.count' do
+      post users_path, params: { user: { email: "user@invalid",
+                                        name: "",
+                                        password: "abc",
+                                        password_confirmation: "abc"} }
     end
+    
+    #assert_redirected_to users_url
+    assert_template 'users/new'
+  end
 
+  test "should create user" do
+    get signup_path
+    assert_difference('User.count') do
+      post users_path, params: { user: { name: @user.name, email: "testee_test@yahoo.com", password: "password", password_confirmation: "password" } }
+    end
+    
     assert_redirected_to user_url(User.last)
   end
 
@@ -34,8 +48,8 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
   end
 
   test "should update user" do
-    patch user_url(@user), params: { user: { email: @user.email, manager: @user.manager, name: @user.name, password_digest: @user.password_digest } }
-    assert_redirected_to user_url(@user)
+    patch user_path(@user), params: { user: { name: @user.name, email: @user.email, password: "password", password_confirmation: "password" } }
+    assert_redirected_to user_path(@user)
   end
 
   test "should destroy user" do

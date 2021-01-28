@@ -2,4 +2,5 @@
 
 Felix:
   name: Felix-Mihai
-  email: felix@yahoo.com
+  email: mihai_prava@yahoo.com
+  password_digest: <%= User.digest('password') %>

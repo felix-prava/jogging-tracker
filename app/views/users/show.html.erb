@@ -11,5 +11,14 @@
   </div>
 </div>
 <br>
+<div class="col-md-8">
+  <% if @user.jogtimes.any? %>
+    <h3>Jogtimes (<%= @user.jogtimes.count %>)</h3>
+    <ol class="jogtimes">
+      <%= render @jogtimes %>
+    </ol>
+    <%= will_paginate @jogtimes %>
+  <% end %>
+</div>
 
 <%= link_to 'Back', users_path, class:"btn btn-secondary"%>

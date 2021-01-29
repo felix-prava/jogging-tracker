@@ -63,4 +63,12 @@ class UserTest < ActiveSupport::TestCase
   test "authenticated? should return false for a user with nil digest" do
     assert_not @user.authenticated?('')
   end
+
+  test "associated times should be destroyed" do
+    @user.save
+    @user.jogtimes.create!(minutes: 65, distance: 1.5, weekday: 2021-01-29)
+    assert_difference 'Jogtime.count', -1 do
+      @user.destroy
+    end
+  end
 end

@@ -12,6 +12,7 @@ class UsersController < ApplicationController
 
   # GET /users/1 or /users/1.json
   def show
+    @jogtimes = @user.jogtimes.paginate(page: params[:page])
   end
 
   # GET /users/new

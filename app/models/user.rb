@@ -1,6 +1,6 @@
 class User < ApplicationRecord
     attr_accessor :remember_token
-
+    has_many :jogtimes, dependent: :destroy
     before_save :downcase_email
 
     validates :name, presence: true, length: { maximum: 50 }

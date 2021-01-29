@@ -1,0 +1,9 @@
+<li id="jogtime-<%= jogtime.id %>">
+    <span class="user"><%= link_to jogtime.user.name, jogtime.user %>
+    </span><span class="content"><%= jogtime.minutes %></span>
+    </span><span class="content"><%= jogtime.distance %></span>
+
+    <span class="timestamp">
+        Posted <%= time_ago_in_words(jogtime.created_at) %> ago.
+    </span>
+</li>

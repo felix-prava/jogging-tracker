@@ -19,6 +19,13 @@
                 <%= form.password_field :password, class: "form-control" %>
             </div>
 
+            <div class="field mb-3">
+                <%= form.label :remember_me, class: "checkbox inline" do %>
+                    <%= form.check_box :remember_me %>
+                    <span>Remember me on this computer</span>
+                <% end %>
+            <div>
+
             <div class="actions">
                 <%= form.submit "Log in", class: "btn btn-secondary" %>
             </div>

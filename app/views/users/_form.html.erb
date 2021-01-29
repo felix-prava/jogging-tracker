@@ -1,5 +1,5 @@
 <%= form_with(model: @user) do |form| %>
-  <%= render 'shared/error_messages', object: form.object %>
+  <%= render 'shared/error_messages', object: form.object, local: false %>
 
   <div class="field mb-3">
     <%= form.label :name %>
@@ -22,7 +22,7 @@
   </div>
 
   <div class="actions">
-    <%= form.submit class: "btn btn-secondary" %>
+    <%= form.submit yield(:button_text), class: "btn btn-secondary" %>
   </div>
   <br>
 <% end %>

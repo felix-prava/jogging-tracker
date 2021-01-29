@@ -3,6 +3,7 @@ require "test_helper"
 class UsersControllerTest < ActionDispatch::IntegrationTest
   setup do
     @user = users(:Felix)
+    @other_user = users(:Stefan)
   end
 
   test "should get index" do
@@ -23,8 +24,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
                                         password: "abc",
                                         password_confirmation: "abc"} }
     end
-    
-    #assert_redirected_to users_url
     assert_template 'users/new'
   end
 
@@ -33,7 +32,6 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference('User.count') do
       post users_path, params: { user: { name: @user.name, email: "testee_test@yahoo.com", password: "password", password_confirmation: "password" } }
     end
-    
     assert_redirected_to user_url(User.last)
   end
 
@@ -56,7 +54,36 @@ class UsersControllerTest < ActionDispatch::IntegrationTest
     assert_difference('User.count', -1) do
       delete user_url(@user)
     end
-
     assert_redirected_to users_url
   end
+
+  test "should redirect edit when a user is not logged in" do
+    get edit_user_path(@user)
+    assert_not flash.empty?
+    assert_redirected_to login_url
+  end
+
+  test "should redirect edit when a different user is logged in" do
+    log_in_as(@other_user)
+    get edit_user_path(@user)
+    assert flash.empty?
+    assert_redirected_to root_url
+  end
+
+  test "should redirect destroy when not logged in" do
+    assert_no_difference 'User.count' do
+      delete user_path(@user)
+    end
+    assert_redirected_to login_url
+  end
+
+  test "should redirect destroy when logged in as a non-admin" do
+    log_in_as(@other_user)
+    assert_no_difference 'User.count' do
+      delete user_path(@user)
+    end
+    assert_redirected_to root_url
+  end
+    
+    
 end

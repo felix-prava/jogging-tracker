@@ -11,14 +11,33 @@
   </div>
 </div>
 <br>
-<div class="col-md-8">
+<% if current_user?(actual_user) || admin_user %>
+  <div class="card">
+      <div class="card-header">
+          <h1>Add Jogging Time</h1>
+      </div>
+      <div class="card-body">
+          <%= render 'shared/jogtime_form' %>
+      </div>
+  </div>
+  <br>
   <% if @user.jogtimes.any? %>
-    <h3>Jogtimes (<%= @user.jogtimes.count %>)</h3>
-    <ol class="jogtimes">
-      <%= render @jogtimes %>
-    </ol>
-    <%= will_paginate @jogtimes %>
+    <div class="card">
+        <div class="card-header">
+          <div class="col-md-8">
+            <h3>Jogtimes (<%= @user.jogtimes.count %>)</h3>
+            <%= link_to 'Order ⇵', order_path, class:"btn btn-secondary"%>
+          </div>
+        </div>
+        <div class="card-body">
+          <div class="col-md-8">
+            <ol class="jogtimes">
+              <%= render @jogtimes %>
+            </ol>
+            <%= will_paginate @jogtimes %>
+          </div>
+        </div>
+    </div>
   <% end %>
-</div>
-
+<% end %>
 <%= link_to 'Back', users_path, class:"btn btn-secondary"%>

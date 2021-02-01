@@ -17,5 +17,5 @@ end
 users = User.order(:created_at).take(6)
 50.times do |n|
     minutes = n + 1
-    users.each { |user| user.jogtimes.create!(minutes: minutes, distance: 2.5, weekday: 2021-01-29) }
+    users.each { |user| user.jogtimes.create!(minutes: minutes, distance: 2.5, weekday: Date.today) }
 end

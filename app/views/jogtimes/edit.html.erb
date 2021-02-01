@@ -1,0 +1,12 @@
+<% provide(:button_text, 'Edit my time') %>
+<div class="card">
+    <div class="card-header">
+        <h1>Editing Inserted Time</h1>
+    </div>
+    <div class="card-body">
+        <%= render 'jogtimes/form', jogtime: @jogtime %>
+    </div>
+</div>
+<br>
+<%= link_to 'Show', @jogtime, class: "btn btn-secondary" %>
+<%= link_to 'Back', current_user, class: "btn btn-secondary" %>

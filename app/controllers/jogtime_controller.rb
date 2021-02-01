@@ -1,2 +1,0 @@
-class JogtimeController < ApplicationController
-end

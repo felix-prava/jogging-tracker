@@ -6,16 +6,12 @@
     </button>
     <div class="collapse navbar-collapse" id="navbarSupportedContent">
       <ul class="navbar-nav me-auto mb-2 mb-lg-0">
-        <li class="nav-item">
-          <%= link_to 'About Us', about_path, class: "nav-link"%>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'Contact', contact_path, class: "nav-link"%>
-        </li>
-        <li class="nav-item">
-          <%= link_to 'Users', users_path, class: "nav-link"%>
-        </li>
         <% if logged_in? %>
+          <% if current_user.admin? || current_user.manager? %>
+            <li class="nav-item">
+              <%= link_to 'Users', users_path, class: "nav-link"%>
+            </li>
+          <% end %>
           <li class="nav-item">
             <%= link_to "Profile", current_user, class: "nav-link" %>
           </li>
@@ -30,6 +26,12 @@
             <%= link_to 'Sign Up', signup_path, class: "nav-link"%>
           </li>
         <% end %>
+        <li class="nav-item">
+          <%= link_to 'About Us', about_path, class: "nav-link"%>
+        </li>
+        <li class="nav-item">
+          <%= link_to 'Contact', contact_path, class: "nav-link"%>
+        </li>
       </ul>
     </div>
   </div>

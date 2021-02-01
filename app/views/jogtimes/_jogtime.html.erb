@@ -1,9 +1,21 @@
-<li id="jogtime-<%= jogtime.id %>">
-    <span class="user"><%= link_to jogtime.user.name, jogtime.user %>
-    </span><span class="content"><%= jogtime.minutes %></span>
-    </span><span class="content"><%= jogtime.distance %></span>
 
-    <span class="timestamp">
-        Posted <%= time_ago_in_words(jogtime.created_at) %> ago.
-    </span>
-</li>
+
+<div class="card">
+    <div class="card-header">
+        <h3><%="Speed: " + (jogtime.distance / (jogtime.minutes.to_f/60)).round(3).to_s + "km/h"%></h3>
+    </div>
+    <div class="card-body">
+        <%= "Time: " + jogtime.minutes.to_s + " minutes" %>
+        <br>
+        <%= "Distance: " + jogtime.distance.to_s + " kilometers" %>
+        <br>
+        <%="Date: " + jogtime.weekday.to_s =%>
+        <br>
+        Added <%= time_ago_in_words(jogtime.created_at) %> ago.
+    </div>
+</div>
+<br>
+<%= link_to 'Edit', edit_jogtime_path(jogtime), class:"btn btn-secondary"%>
+<%= link_to 'Delete', jogtime, method: :delete, class:"btn btn-secondary", data: { confirm: 'Are you sure?' },
+        :remote => true %>
+<br><br>

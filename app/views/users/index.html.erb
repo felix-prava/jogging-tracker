@@ -35,4 +35,12 @@
 
 <br>
 
-<%= link_to 'New User', new_user_path, class:"btn btn-secondary" %>
+<% provide(:button_text, 'Add a new user') %>
+<div class="card">
+    <div class="card-header">
+        <h1>Add Users</h1>
+    </div>
+    <div class="card-body">
+        <%= render 'shared/user_form', object: @user%>
+    </div>
+</div>

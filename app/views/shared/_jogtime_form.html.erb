@@ -1,0 +1,22 @@
+<%= form_with(model: @jogtime, method: :POST, local: false) do |form| %>
+    <%= render 'shared/error_messages', object: form.object %>
+
+    <div class="field mb-3">
+      <%= form.label :minutes %>
+      <%= form.text_field :minutes, class: "form-control" %>
+    </div>
+  
+    <div class="field mb-3">
+      <%= form.label :distance %>
+      <%= form.text_field :distance, class: "form-control" %>
+    </div>
+  
+    <div class="field mb-3">
+      <%= form.label :weekday %>
+      <%= form.text_field :weekday, class: "form-control" %>
+    </div>
+
+    <div class="actions">
+      <%= form.submit "Add jogging time", class: "btn btn-secondary" %>
+    </div>
+<% end %>

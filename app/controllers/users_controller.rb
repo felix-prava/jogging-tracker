@@ -1,18 +1,24 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  before_action :logged_in_user, only: [:edit, :update, :destroy]
-  before_action :correct_user, only: [:edit, :update]
-  before_action :admin_user, only: :destroy
-  before_action :manager_user, only: :destroy
+  before_action :logged_in_user, only: [:edit, :update, :show, :index, :destroy]
+  before_action :correct_user, only: [:edit, :update, :show]
+  before_action :admin_manager_user, only: [:destroy, :index]
 
   # GET /users or /users.json
   def index
+    @user = User.new
     @users = User.paginate(page: params[:page])
   end
 
   # GET /users/1 or /users/1.json
   def show
-    @jogtimes = @user.jogtimes.paginate(page: params[:page])
+    session[:actual_user] = params[:id]
+    @jogtime = Jogtime.new
+    if session[:order] == 1
+      @jogtimes = @user.jogtimes.order(weekday: :desc).paginate(page: params[:page])
+    else
+      @jogtimes = @user.jogtimes.order(:weekday).paginate(page: params[:page])
+    end
   end
 
   # GET /users/new
@@ -30,10 +36,16 @@ class UsersController < ApplicationController
 
     respond_to do |format|
       if @user.save
-        log_in @user
-        flash[:success] = "Account was succesfully updated!"
-        format.html { redirect_to @user }
-        format.json { render :show, status: :created, location: @user }
+        if session[:user_id].nil?
+          log_in @user
+          flash[:success] = "Account was succesfully updated!"
+          format.html { redirect_to @user }
+          format.json { render :show, status: :created, location: @user }
+        else
+          flash[:success] = "Account was succesfully created!"
+          format.html { redirect_to users_url }
+          format.json { render :show, status: :created, location: @user }
+        end
       else
         format.html { render :new, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
@@ -65,6 +77,15 @@ class UsersController < ApplicationController
     end
   end
 
+  def order
+    if session[:order] == 1
+      session[:order] = 0
+    else 
+      session[:order] = 1
+    end
+    redirect_to actual_user
+  end
+
   private
     # Use callbacks to share common setup or constraints between actions.
     def set_user
@@ -76,28 +97,15 @@ class UsersController < ApplicationController
       params.require(:user).permit(:name, :email, :password, :password_confirmation)
     end
 
-    # Confirms a logged-in user.
-    def logged_in_user
-      unless logged_in?
-        flash[:danger] = "Please log in."
-        redirect_to login_url
-      end
-    end
-
     # Confirms the correct user.
     def correct_user
       @user = User.find(params[:id])
-      redirect_to(root_url) unless current_user?(@user)
+      redirect_to(root_url) unless current_user?(@user) || current_user.admin? || current_user.manager?
     end
 
     # Check if a user is admin.
-  def admin_user
-    redirect_to(root_url) unless current_user.admin?
-  end
-
-  # Check if a user is manager.
-  def manager_user
-    redirect_to(root_url) unless current_user.manager?
-  end
+    def admin_manager_user
+      redirect_to(root_url) unless current_user.admin? || current_user.manager?
+    end
   
 end

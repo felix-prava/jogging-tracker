@@ -3,6 +3,7 @@ module SessionsHelper
     # Logs in the given user.
     def log_in(user)
         session[:user_id] = user.id
+        session[:order] = 1
     end
     
     # Returns the current logged-in user (if any).
@@ -14,6 +15,19 @@ module SessionsHelper
             if user && user.authenticated?(cookies[:remember_token])
                 log_in user
                 @current_user = user
+            end
+        end
+    end
+
+    # Returns the user which is seen by the admin.
+    def actual_user
+        if (user_id = session[:actual_user])
+            @actual_user ||= User.find_by(id: user_id)
+        elsif (user_id = cookies.encrypted[:user_id])
+            user = User.find_by(id: user_id)
+            if user && user.authenticated?(cookies[:remember_token])
+                log_in user
+                @actual_user = user
             end
         end
     end
@@ -47,5 +61,13 @@ module SessionsHelper
     # Returns true if the given user is the current user.
     def current_user?(user)
         user && user == current_user
+    end
+
+    # Check if a user is admin.
+    def admin_user
+        current_user.admin?
+    end
+
+    def testtt
     end
 end

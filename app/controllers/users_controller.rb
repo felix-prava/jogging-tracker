@@ -38,7 +38,7 @@ class UsersController < ApplicationController
       if @user.save
         if session[:user_id].nil?
           log_in @user
-          flash[:success] = "Account was succesfully updated!"
+          flash[:success] = "Account was succesfully created!"
           format.html { redirect_to @user }
           format.json { render :show, status: :created, location: @user }
         else
@@ -47,7 +47,8 @@ class UsersController < ApplicationController
           format.json { render :show, status: :created, location: @user }
         end
       else
-        format.html { render :new, status: :unprocessable_entity }
+        flash[:danger] = "The form contains errors!"
+        format.html { redirect_to signup_path, status: :unprocessable_entity }
         format.json { render json: @user.errors, status: :unprocessable_entity }
       end
     end

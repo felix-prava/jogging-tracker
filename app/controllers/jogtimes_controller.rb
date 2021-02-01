@@ -12,7 +12,8 @@ class JogtimesController < ApplicationController
                 format.html { redirect_to actual_user }
                 format.json { render :show, status: :created, location: @jogtime }
             else
-                format.html { render :new, status: :unprocessable_entity }
+                flash[:danger] = "Invalid parameters!"
+                format.html { redirect_to actual_user, status: :unprocessable_entity }
                 format.json { render json: @jogtime.errors, status: :unprocessable_entity }
             end
         end
@@ -39,7 +40,8 @@ class JogtimesController < ApplicationController
               format.html { redirect_to @jogtime.user }
               format.json { render :show, status: :ok, location: @jogtime }
             else
-              format.html { render :edit, status: :unprocessable_entity }
+              flash[:danger] = "Invalid parameters!"
+              format.html { redirect_to edit_jogtime_path, status: :unprocessable_entity }
               format.json { render json: @jogtime.errors, status: :unprocessable_entity }
             end
         end

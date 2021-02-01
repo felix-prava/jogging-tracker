@@ -1,0 +1,20 @@
+<div class="card">
+      <div class="card-header">
+        <% if @avgSpeed != 0 %>
+            <h2>This is your report for this week</h2>
+        <% else %>
+            <h2>No times for the last 7 days, try harder this week!</h2>
+        <% end %>
+      </div>
+      <div class="card-body">
+        <strong><%= "Average speed: " + @avgSpeed.to_s + " Km/h" %></strong>
+        <br>
+        <strong><%= "Average distance: " + @avgDistance.to_s + " Km"%></strong>
+        <br>
+        <strong>Total jogging time: </strong><%=  @totalMinutes.to_s + " minutes"%>
+        <br>
+        <strong>Total distance: </strong><%=  @totalKm.to_s + " Km"%>
+        <br>
+        <strong>Total times introduced this week: </strong> <%=  @nums.to_s + " diffrent jogging times"%>
+      </div>
+  </div>

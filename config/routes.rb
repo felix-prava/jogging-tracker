@@ -8,6 +8,7 @@ Rails.application.routes.draw do
   post '/login' => 'sessions#create'
   delete '/logout' => 'sessions#destroy'
   get '/order' => 'users#order'
+  get '/report' => 'users#report'
   resources :users
   resources :jogtimes
 end

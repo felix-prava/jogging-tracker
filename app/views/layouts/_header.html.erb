@@ -16,6 +16,9 @@
             <%= link_to "Profile", current_user, class: "nav-link" %>
           </li>
           <li class="nav-item">
+            <%= link_to "Weekly report", report_path, class: "nav-link" %>
+          </li>
+          <li class="nav-item">
             <%= link_to "Log out", logout_path, class: "nav-link", method: :delete, remote: true %>
           </li>
         <% else %>
@@ -33,6 +36,7 @@
           <%= link_to 'Contact', contact_path, class: "nav-link"%>
         </li>
       </ul>
+      
     </div>
   </div>
 </nav>

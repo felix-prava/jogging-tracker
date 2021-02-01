@@ -1,6 +1,6 @@
 class UsersController < ApplicationController
   before_action :set_user, only: %i[ show edit update destroy ]
-  before_action :logged_in_user, only: [:edit, :update, :show, :index, :destroy]
+  before_action :logged_in_user, only: [:edit, :update, :show, :index, :destroy, :report]
   before_action :correct_user, only: [:edit, :update, :show]
   before_action :admin_manager_user, only: [:destroy, :index]
 
@@ -47,9 +47,15 @@ class UsersController < ApplicationController
           format.json { render :show, status: :created, location: @user }
         end
       else
-        flash[:danger] = "The form contains errors!"
-        format.html { redirect_to signup_path, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        if session[:user_id].nil?
+          flash[:danger] = "The form contains errors!"
+          format.html { redirect_to signup_path, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        else
+          flash[:danger] = "The form contains errors!"
+          format.html { redirect_to users_path, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end
       end
     end
   end
@@ -85,6 +91,32 @@ class UsersController < ApplicationController
       session[:order] = 1
     end
     redirect_to actual_user
+  end
+
+  def report
+    @totalMinutes = 0
+    @totalKm = 0
+    num = 0
+    totalSpeed = 0
+    (0..6).each do |i|
+      date = i.day.ago
+      dates = Jogtime.where(weekday: date, user_id: current_user.id)
+      dates.each do | item |
+        speed = (item.distance / (item.minutes.to_f/60)).round(3)
+        num += 1
+        totalSpeed += speed
+        @totalMinutes += item.minutes
+        @totalKm += item.distance
+      end
+    end
+    if num != 0
+      @avgSpeed = (totalSpeed / num).round(3)
+      @avgDistance = (@totalKm / num).round(3)
+    else 
+      @avgSpeed = 0
+      @avgDistance = 0
+    end
+    @nums = num
   end
 
   private

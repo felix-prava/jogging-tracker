@@ -25,6 +25,7 @@
                     <span>Remember me on this computer</span>
                 <% end %>
             <div>
+            <input name="authenticity_token" type="hidden" value="token_value">
 
             <div class="actions">
                 <%= form.submit "Log in", class: "btn btn-secondary" %>

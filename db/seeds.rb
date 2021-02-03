@@ -1,9 +1,16 @@
-User.create!(name: "Felix ",
-            email: "felix@yahoo.com",
-            password: "password",
-            password_confirmation: "password")
+User.create!(name: "Felix",
+            email: "mihai_prava@yahoo.com",
+            password: "abcdef",
+            password_confirmation: "abcdef",
+            admin: true)
 
-99.times do |n|
+User.create!(name: "Mihai",
+            email: "mihai.prava@gmail.com",
+            password: "abcdef",
+            password_confirmation: "abcdef",
+            manager: true)
+
+45.times do |n|
     name = Faker::Name.name
     email = "example-#{n+1}@yahoo.com"
     password = "password"
@@ -17,5 +24,5 @@ end
 users = User.order(:created_at).take(6)
 50.times do |n|
     minutes = n + 1
-    users.each { |user| user.jogtimes.create!(minutes: minutes, distance: 2.5, weekday: Date.today) }
+    users.each { |user| user.jogtimes.create!(minutes: minutes, distance: 2.5, weekday: Date.today - n) }
 end

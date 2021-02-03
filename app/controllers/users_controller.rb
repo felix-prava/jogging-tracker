@@ -32,8 +32,8 @@ class UsersController < ApplicationController
 
   # POST /users or /users.json
   def create
+    
     @user = User.new(user_params)
-
     respond_to do |format|
       if @user.save
         if session[:user_id].nil?
@@ -47,15 +47,72 @@ class UsersController < ApplicationController
           format.json { render :show, status: :created, location: @user }
         end
       else
-        if session[:user_id].nil?
-          flash[:danger] = "The form contains errors!"
-          format.html { redirect_to signup_path, status: :unprocessable_entity }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
+        name = params[:user][:name]
+        emaill = params[:user][:email]
+        user_found = User.find_by(email: emaill)
+        passwordd = params[:user][:password]
+        passwordd_confirmation = params[:user][:password_confirmation]
+        if passwordd == "" || passwordd_confirmation == ""
+          if session[:user_id].nil?
+            flash[:danger] = "Password can not be empty!"
+            format.html { redirect_to signup_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          else
+            flash[:danger] = "Password can not be empty!"
+            format.html { redirect_to users_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end 
+        elsif passwordd != passwordd_confirmation
+          if session[:user_id].nil?
+            flash[:danger] = "Passwords must match!"
+            format.html { redirect_to signup_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          else
+            flash[:danger] = "Passwords must match!"
+            format.html { redirect_to users_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
+        elsif name == ""
+          if session[:user_id].nil?
+            flash[:danger] = "Name can not be empty!"
+            format.html { redirect_to signup_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          else
+            flash[:danger] = "Name can not be empty!"
+            format.html { redirect_to users_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
+        elsif emaill == ""
+          if session[:user_id].nil?
+            flash[:danger] = "Email can not be empty!"
+            format.html { redirect_to signup_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          else
+            flash[:danger] = "Email can not be empty!"
+            format.html { redirect_to users_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
+        elsif user_found
+          if session[:user_id].nil?
+            flash[:danger] = "Email is already used!"
+            format.html { redirect_to signup_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          else
+            flash[:danger] = "Email is already used!"
+            format.html { redirect_to users_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
         else
-          flash[:danger] = "The form contains errors!"
-          format.html { redirect_to users_path, status: :unprocessable_entity }
-          format.json { render json: @user.errors, status: :unprocessable_entity }
-        end
+          if session[:user_id].nil?
+            flash[:danger] = "Password must have at least 6 characters!"
+            format.html { redirect_to signup_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          else
+            flash[:danger] = "Password must have at least 6 characters!"
+            format.html { redirect_to users_path, status: :unprocessable_entity }
+            format.json { render json: @user.errors, status: :unprocessable_entity }
+          end
+        end 
       end
     end
   end
@@ -68,8 +125,32 @@ class UsersController < ApplicationController
         format.html { redirect_to @user }
         format.json { render :show, status: :ok, location: @user }
       else
-        format.html { render :edit, status: :unprocessable_entity }
-        format.json { render json: @user.errors, status: :unprocessable_entity }
+        name = params[:user][:name]
+        emaill = params[:user][:email]
+        user_found = User.find_by(email: emaill)
+        passwordd = params[:user][:password]
+        passwordd_confirmation = params[:user][:password_confirmation]
+        if passwordd != passwordd_confirmation
+          flash[:danger] = "Passwords must match!"
+          format.html { redirect_to edit_user_path, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        elsif name == ""
+          flash[:danger] = "Name can not be empty!"
+          format.html { redirect_to edit_user_path, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        elsif emaill == ""
+          flash[:danger] = "Email can not be empty!"
+          format.html { redirect_to edit_user_path, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        elsif user_found && user_found != actual_user
+          flash[:danger] = "Email is already used!"
+          format.html { redirect_to edit_user_path, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        else
+          flash[:danger] = "Password must have at least 6 characters!"
+          format.html { redirect_to edit_user_path, status: :unprocessable_entity }
+          format.json { render json: @user.errors, status: :unprocessable_entity }
+        end 
       end
     end
   end

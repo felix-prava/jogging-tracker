@@ -67,7 +67,4 @@ module SessionsHelper
     def admin_user
         current_user.admin?
     end
-
-    def testtt
-    end
 end

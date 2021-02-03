@@ -165,6 +165,7 @@ class UsersController < ApplicationController
     end
   end
 
+  # Sort the jogging times by dates
   def order
     if session[:order] == 1
       session[:order] = 0
@@ -174,6 +175,7 @@ class UsersController < ApplicationController
     redirect_to actual_user
   end
 
+  # Create a report for the last week
   def report
     @totalMinutes = 0
     @totalKm = 0

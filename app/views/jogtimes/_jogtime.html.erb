@@ -9,6 +9,8 @@
         <br>
         <%="Date: " + jogtime.weekday.to_s =%>
         <br>
+        <%="Location: " + jogtime.location.to_s =%>
+        <br>
         Added <%= time_ago_in_words(jogtime.created_at) %> ago.
     </div>
 </div>

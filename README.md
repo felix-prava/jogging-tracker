@@ -1,24 +1,37 @@
-# README
+# Jogging Tracker App
 
-This README would normally document whatever steps are necessary to get the
-application up and running.
+It is a Ruby on Rails app that allows users to create an account and insert jogging times. There are 3 types uf users:
 
-Things you may want to cover:
+-normal user: can add jogging times and see a weekly report of the inserted times
 
-* Ruby version
+-manager: can CRUD users
 
-* System dependencies
+-admin: can CRUD users and all records
 
-* Configuration
+Each time entry when entered has a date, distance, and time.
+When displayed, each time entry has average speed.
+Filter by dates from-to.
+Report on average speed & distance per week.
 
-* Database creation
+The password is hashed. Every page has access control so only logged in users can do specific actions.
+All actions are done without refreshing the page, using Ajax.
 
-* Database initialization
+## Getting started
+To get started with the app, clone the repo and then install the needed gems:
+```
+$ bundle install --without production
+```
+Next, migrate the database:
+```
+$ rails db:migrate
+```
+Finally, run the test suite to verify that everything is working correctly:
+```
+$ rails test
+```
+If the test suite passes, you'll be ready to run the app in a local server:
+```
+$ rails server
+```
 
-* How to run the test suite
-
-* Services (job queues, cache servers, search engines, etc.)
-
-* Deployment instructions
-
-* ...
+![Alt text](screenshots\Captură ecran (159).png?raw=true "Optional Title")

@@ -1,8 +1,11 @@
 # Jogging Tracker App
 
 It is a Ruby on Rails app that allows users to create an account and insert jogging times. There are 3 types uf users:
+
 -normal user: can add jogging times and see a weekly report of the inserted times
+
 -manager: can CRUD users
+
 -admin: can CRUD users and all records
 
 Each time entry when entered has a date, distance, and time.

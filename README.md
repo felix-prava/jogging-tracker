@@ -10,7 +10,7 @@ When displayed, each time entry has average speed.
 Filter by dates from-to.
 Report on average speed & distance per week.
 
-The **password is hashed.** Every page has **access control** so only logged in users can do specific actions.
+The password is hashed. Every page has access control so only logged in users can do specific actions.
 All actions are done without refreshing the page, using Ajax.
 
 ## Getting started
@@ -30,6 +30,3 @@ If the test suite passes, you'll be ready to run the app in a local server:
 ```
 $ rails server
 ```
-
-
-Login page with invalid 

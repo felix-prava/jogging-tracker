@@ -33,5 +33,8 @@ If the test suite passes, you'll be ready to run the app in a local server:
 ```
 $ rails server
 ```
+<<<<<<< HEAD
 
 ![Alt text](screenshots\Captură ecran (159).png?raw=true "Optional Title")
+=======
+>>>>>>> 53dff7222b3f2d5a4fe4f2bda45473c8aff8c32d
